@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+function ProductCategoryRow({ category }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <tr>
+      <th colSpan="2">
+        {category}
+      </th>
+    </tr>
   );
 }
 
-export default App;
+function ProductRow({product})
+{
+  const name=product.stocked?product.name : <span style={{color:"red"}}>{product.name}</span>;
+  return(
+    <tr>
+      <td>{product.name}</td>
+      <td>{product.price}</td>
+    </tr>
+  )
+  
+}
+
+
+function ProductTable({products})
+{
+    const rows=[];
+    let lastcategory=null;
+    products.forEach((product)=>{
+      if(product.category!==lastcategory)
+      {
+          rows.push(
+          <ProductCategoryRow category={product.category} key={product.category}/>
+        );
+      }
+
+      rows.push(
+      <ProductRow product={product} key={product.name}/>
+    )
+
+      lastcategory=product.category;
+    });
+
+    
+}
